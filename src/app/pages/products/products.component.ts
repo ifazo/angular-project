@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
+import { CategoryFiltersComponent } from '../../components/category-filters/category-filters.component';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [],
+  imports: [CategoryFiltersComponent],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
 })

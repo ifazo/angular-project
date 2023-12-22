@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonModule } from '@angular/common';
-import { CategoryFiltersComponent } from '../../components/category-filters/category-filters.component';
 
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [CommonModule, CategoryFiltersComponent],
+  imports: [CommonModule],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.css',
 })
