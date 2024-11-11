@@ -3,10 +3,10 @@ import { HomeComponent } from './pages/home/home.component';
 import { BlogsComponent } from './pages/blogs/blogs.component';
 import { ProductsComponent } from './pages/products/products.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
-import { AboutComponent } from './pages/about/about.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
 import { SignInComponent } from './pages/sign-in/sign-in.component';
+import { SignUpComponent } from './pages/sign-up/sign-up.component';
 
 export const routes: Routes = [
   {
@@ -29,8 +29,8 @@ export const routes: Routes = [
         title: 'Categories | angular',
       },
       { path: 'blogs', component: BlogsComponent, title: 'Blogs | angular' },
-      { path: 'about', component: AboutComponent, title: 'About | angular' },
-      { path: 'sign-in', component: SignInComponent, title: 'Sign-in | angular' },
+      { path: 'sign-in', component: SignInComponent, title: 'Sign in | angular' },
+      { path: 'sign-up', component: SignUpComponent, title: 'Sign up | angular' },
     ],
   },
   {
