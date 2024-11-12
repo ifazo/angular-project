@@ -1,21 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
-import { CategoryFiltersComponent } from '../../components/category-filters/category-filters.component';
-import { ProductCardComponent } from '../../components/product-card/product-card.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CategoryFiltersComponent, ProductCardComponent],
+  imports: [CommonModule],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
 })
 export class ProductsComponent implements OnInit {
+  products: any[] = [];
   constructor(private _api: ApiService) {}
+
   ngOnInit(): void {
     this._api.getProducts().subscribe({
-      next: (result) => {
-        console.log(result);
+      next: (data: any) => {
+        this.products = data.products;
       },
       error: (error) => {
         console.log(error);
@@ -25,4 +26,5 @@ export class ProductsComponent implements OnInit {
       },
     });
   }
+
 }

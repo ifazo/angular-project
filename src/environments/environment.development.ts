@@ -1,5 +1,5 @@
 export const environment = {
-  apiUrl: 'http://localhost:3000/api/v1',
+  apiUrl: 'https://ifaz-react-server.vercel.app/api',
   firebaseConfig: {
     apiKey: 'AIzaSyDPnk7f9K6yue_V8OgtrFHS-5ovRDGsjYM',
     authDomain: 'ifaz-angular-project.firebaseapp.com',

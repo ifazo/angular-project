@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
-import { BlogsComponent } from './pages/blogs/blogs.component';
 import { ProductsComponent } from './pages/products/products.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
@@ -12,6 +11,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { OrderComponent } from './pages/order/order.component';
 import { HistoryComponent } from './pages/history/history.component';
 import { authGuard } from './guard/auth.guard';
+import { ProductComponent } from './pages/product/product.component';
+import { CategoryComponent } from './pages/category/category.component';
 
 export const routes: Routes = [
   {
@@ -27,13 +28,26 @@ export const routes: Routes = [
         path: 'products',
         component: ProductsComponent,
         title: 'Products | angular',
+        children: [
+          {
+            path: ':id',
+            component: ProductComponent,
+            title: 'Product | angular',
+          }
+        ]
       },
       {
         path: 'categories',
         component: CategoriesComponent,
         title: 'Categories | angular',
+        children: [
+          {
+            path: ':slug',
+            component: CategoryComponent,
+            title: 'Category | angular',
+          }
+        ]
       },
-      { path: 'blogs', component: BlogsComponent, title: 'Blogs | angular' },
       { path: 'sign-in', component: SignInComponent, title: 'Sign in | angular' },
       { path: 'sign-up', component: SignUpComponent, title: 'Sign up | angular' },
     ],

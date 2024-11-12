@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.css',
 })
 export class CategoriesComponent implements OnInit {
-  categories: any;
+  categories: any[] = [];
 
   constructor(private _api: ApiService) {}
 
@@ -20,9 +21,8 @@ export class CategoriesComponent implements OnInit {
 
   private getCategories() {
     this._api.getCategories().subscribe({
-      next: (result) => {
-        console.log(result);
-        this.categories = result;
+      next: (data: any) => {
+        this.categories = data;
       },
       error: (err) => {
         console.log(err);
