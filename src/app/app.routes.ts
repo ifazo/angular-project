@@ -28,25 +28,21 @@ export const routes: Routes = [
         path: 'products',
         component: ProductsComponent,
         title: 'Products | angular',
-        children: [
-          {
-            path: ':id',
-            component: ProductComponent,
-            title: 'Product | angular',
-          }
-        ]
+      },
+      {
+        path: 'products/:id',
+        component: ProductComponent,
+        title: 'Product | angular',
       },
       {
         path: 'categories',
         component: CategoriesComponent,
         title: 'Categories | angular',
-        children: [
-          {
-            path: ':slug',
-            component: CategoryComponent,
-            title: 'Category | angular',
-          }
-        ]
+      },
+      {
+        path: 'categories/:slug',
+        component: CategoryComponent,
+        title: 'Category | angular',
       },
       { path: 'sign-in', component: SignInComponent, title: 'Sign in | angular' },
       { path: 'sign-up', component: SignUpComponent, title: 'Sign up | angular' },
@@ -78,5 +74,10 @@ export const routes: Routes = [
         title: 'History | angular',
       },
     ]
+  },
+  {
+    path: '**',
+    redirectTo: '',
+    pathMatch: 'full',
   },
 ];

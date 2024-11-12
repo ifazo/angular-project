@@ -12,7 +12,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(),
     provideHttpClient(),
-    provideAnimations(), // Required for animations in PrimeNG
+    provideAnimations(),
     importProvidersFrom(ToastModule),
     { provide: MessageService, useClass: MessageService },
   ],

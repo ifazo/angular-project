@@ -13,6 +13,10 @@ export class ApiService {
     return this._httpClient.get(`${environment.apiUrl}/products`);
   }
 
+  getProduct(id: string | null) {
+    return this._httpClient.get(`${environment.apiUrl}/products/` + id);
+  }
+
   addProduct(product: any) {
     return this._httpClient.post(`${environment.apiUrl}/products`, product);
   }
@@ -32,6 +36,12 @@ export class ApiService {
 
   getCategories() {
     return this._httpClient.get(`${environment.apiUrl}/categories`);
+  }
+
+  getProductsByCategory(slug: string | null) {
+    return this._httpClient.get(
+      `${environment.apiUrl}/products?category=${slug}`
+    );
   }
 
   addCategory(category: any) {
