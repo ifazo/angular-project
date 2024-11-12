@@ -1,11 +1,6 @@
-<div class="h-full bg-gray-50">
+<div class="bg-gray-50">
   <div class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
-      <img
-        class="mx-auto h-10 w-auto"
-        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-        alt="Your Company"
-      />
       <h2
         class="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
       >
@@ -24,7 +19,7 @@
             >
             <div class="mt-2">
               <input
-              [(ngModel)]="name"
+                [(ngModel)]="name"
                 id="name"
                 name="name"
                 type="text"
@@ -43,7 +38,7 @@
             >
             <div class="mt-2">
               <input
-              [(ngModel)]="email"
+                [(ngModel)]="email"
                 id="email"
                 name="email"
                 type="email"
@@ -62,7 +57,7 @@
             >
             <div class="mt-2">
               <input
-              [(ngModel)]="password"
+                [(ngModel)]="password"
                 id="password"
                 name="password"
                 type="password"
@@ -120,8 +115,8 @@
           </div>
 
           <div class="mt-6 grid grid-cols-2 gap-4">
-            <a
-              href="#"
+            <button
+              (click)="signInWithGoogle()"
               class="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent"
             >
               <svg class="h-5 w-5" viewBox="0 0 24 24" aria-hidden="true">
@@ -143,10 +138,10 @@
                 />
               </svg>
               <span class="text-sm font-semibold leading-6">Google</span>
-            </a>
+            </button>
 
-            <a
-              href="#"
+            <button
+              (click)="signInWithGitHub()"
               class="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent"
             >
               <svg
@@ -162,7 +157,7 @@
                 />
               </svg>
               <span class="text-sm font-semibold leading-6">GitHub</span>
-            </a>
+            </button>
           </div>
         </div>
       </div>

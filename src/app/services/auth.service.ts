@@ -1,13 +1,22 @@
 // src/app/auth.service.ts
 import { Injectable } from '@angular/core';
-import { signInWithEmailAndPassword, GoogleAuthProvider, GithubAuthProvider, signInWithPopup, signOut, createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, GoogleAuthProvider, GithubAuthProvider, signInWithPopup, signOut, createUserWithEmailAndPassword, onAuthStateChanged, User } from "firebase/auth";
 import auth from '../../../firebase.config';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  auth = auth;
+
   constructor() {}
+  
+  getCurrentUser(): Observable<User | null> {
+    return new Observable(subscriber => {
+      onAuthStateChanged(this.auth, (user) => subscriber.next(user), (error) => subscriber.error(error));
+    });
+  }
 
   async signUpWithEmail(email: string, password: string) {
     try {
@@ -65,7 +74,4 @@ export class AuthService {
     }
   }
 
-  getCurrentUser() {
-    return auth.currentUser;
-  }
 }

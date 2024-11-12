@@ -4,13 +4,9 @@
     aria-label="Global"
   >
     <div class="flex lg:flex-1">
-      <a [routerLink]="'/'" href="#" class="-m-1.5 p-1.5">
-        <span class="sr-only">Your Company</span>
-        <img
-          class="h-8 w-auto"
-          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-          alt="Logo"
-        />
+      <a [routerLink]="'/'" class="-m-1.5 p-1.5">
+        <span class="sr-only">Logo</span>
+        <img class="h-8 w-auto" src="../../../assets/logo.png" alt="Logo" />
       </a>
     </div>
     <div class="flex lg:hidden">
@@ -59,11 +55,21 @@
       >
     </div>
     <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-      <a
-        [routerLink]="'/sign-in'"
-        class="text-sm font-semibold leading-6 text-gray-900"
-        >Sign in <span aria-hidden="true">&rarr;</span></a
-      >
+      <ng-container *ngIf="user$ | async as user; else signIn">
+        <button
+          (click)="signOut()"
+          class="text-sm font-semibold leading-6 text-gray-900 cursor-pointer"
+        >
+          Sign out <span aria-hidden="true">&rarr;</span>
+        </button>
+      </ng-container>
+      <ng-template #signIn>
+        <a
+          [routerLink]="'/sign-in'"
+          class="text-sm font-semibold leading-6 text-gray-900"
+          >Sign in <span aria-hidden="true">&rarr;</span></a
+        >
+      </ng-template>
     </div>
   </nav>
   <!-- Mobile menu, show/hide based on menu open state. -->
@@ -79,15 +85,15 @@
       class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
     >
       <div class="flex items-center justify-between">
-        <a [routerLink]="'/'" href="#" class="-m-1.5 p-1.5">
-          <span class="sr-only">Your Company</span>
-          <img
-            class="h-8 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-            alt="Logo"
-          />
+        <a [routerLink]="'/'" class="-m-1.5 p-1.5">
+          <span class="sr-only">Logo</span>
+          <img class="h-8 w-auto" src="../../../assets/logo.png" alt="Logo" />
         </a>
-        <button (click)="toggleMobileMenu()" type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700">
+        <button
+          (click)="toggleMobileMenu()"
+          type="button"
+          class="-m-2.5 rounded-md p-2.5 text-gray-700"
+        >
           <span class="sr-only">Close menu</span>
           <svg
             class="h-6 w-6"
@@ -110,36 +116,42 @@
           <div class="space-y-2 py-6">
             <a
               [routerLink]="'/products'"
-              href="#"
               class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
               >Product</a
             >
             <a
               [routerLink]="'/categories'"
-              href="#"
               class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
               >Category</a
             >
             <a
               [routerLink]="'/blogs'"
-              href="#"
               class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
               >Blog</a
             >
             <a
               [routerLink]="'/dashboard'"
-              href="#"
               class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
               >Dashboard</a
             >
           </div>
           <div class="py-6">
-            <a
-              [routerLink]="'/sign-in'"
-              href="#"
-              class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-              >Sign in</a
-            >
+            <ng-container *ngIf="user$ | async as user; else signIn">
+              <button
+                (click)="signOut()"
+                class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 cursor-pointer"
+              >
+                Sign out <span aria-hidden="true">&rarr;</span>
+              </button>
+            </ng-container>
+
+            <ng-template #signIn>
+              <a
+                [routerLink]="'/sign-in'"
+                class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                >Sign in <span aria-hidden="true">&rarr;</span></a
+              >
+            </ng-template>
           </div>
         </div>
       </div>

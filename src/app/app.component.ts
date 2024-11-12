@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { environment } from '../environments/environment';
 import { initializeApp } from 'firebase/app';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ToastModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

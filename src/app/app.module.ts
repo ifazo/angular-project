@@ -4,14 +4,23 @@ import { BrowserModule } from '@angular/platform-browser';
 import { environment } from '../environments/environment';
 import { initializeApp } from 'firebase/app';
 import { AppComponent } from './app.component';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
-  imports: [BrowserModule, AppComponent],
-  providers: []
+  imports: [BrowserModule, AppComponent, ToastModule],
+  providers: [MessageService],
 })
 export class AppModule {
-  constructor() {
-    // Initialize Firebase with the environment configuration
+  constructor(private messageService: MessageService) {
     initializeApp(environment.firebaseConfig);
+  }
+
+  showSuccess() {
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: 'Message content',
+    });
   }
 }
