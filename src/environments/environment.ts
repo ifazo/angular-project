@@ -1,6 +1,7 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://ifaz-react-server.vercel.app/api',
+  apiUrl: 'https://ifaz-angular-server.vercel.app/api',
+  STRIPE_PUBLISHABLE_KEY: 'pk_test_51OeUXkC7ISCzYV826HNZwGYJ1GizYe9bl99NAJEzN5tZVlhIJ0bi9rtdrMVlSn4Tqy1ASsoVdiEKLDRssN9gfPh900uoiJeCxl',
   firebaseConfig: {
     apiKey: 'AIzaSyDPnk7f9K6yue_V8OgtrFHS-5ovRDGsjYM',
     authDomain: 'ifaz-angular-project.firebaseapp.com',

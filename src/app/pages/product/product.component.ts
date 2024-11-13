@@ -5,25 +5,65 @@ import { CommonModule } from '@angular/common';
 import { Store, StoreModule } from '@ngrx/store';
 import { addToCart } from '../../stores/cart/cart.actions';
 import { CartState } from '../../stores/cart/cart.reducer';
+import { HttpClient } from '@angular/common/http';
+import { loadStripe, Stripe } from '@stripe/stripe-js';
+import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-product',
   standalone: true,
   imports: [CommonModule, StoreModule],
   templateUrl: './product.component.html',
-  styleUrl: './product.component.css'
+  styleUrl: './product.component.css',
 })
 export class ProductComponent implements OnInit {
+  user$!: Observable<any>;
   productId: string | null = null;
   product: any = {};
   quantity: number = 1;
-  
+  loading: boolean = true;
+
   mainImage: string = '';
   filledStars: number[] = [];
   emptyStars: number[] = [];
-  loading: boolean = true;
 
-  constructor(private route: ActivatedRoute, private _api: ApiService, private store: Store<CartState>) {}
+  private stripePromise: Promise<Stripe | null>;
+
+  constructor(
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    private _api: ApiService,
+    private store: Store<CartState>
+  ) {
+    this.stripePromise = loadStripe(environment.STRIPE_PUBLISHABLE_KEY);
+  }
+
+  ngOnInit(): void {
+    this.productId = this.route.snapshot.paramMap.get('id');
+    this.user$ = this.authService.getCurrentUser();
+    this.getProduct();
+  }
+
+  async handlePayment(): Promise<void> {
+    this.createPayment();
+  }
+
+  addToCart(): void {
+    this.store.dispatch(
+      addToCart({ product: this.product, quantity: this.quantity })
+    );
+  }
+
+  getStars(rating: number): number[] {
+    return Array(rating).fill(0);
+  }
+
+  formatDate(date: string): string {
+    const d = new Date(date);
+    return `${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`;
+  }
 
   totalPrice() {
     return this.product.price * this.quantity;
@@ -39,21 +79,33 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  addToCart(): void {
-    this.store.dispatch(addToCart({ product: this.product, quantity: this.quantity }));
-  }
-
-  buyProduct(product: any): void {
-    console.log('Buying product', product);
-  }
-  
-  ngOnInit(): void {
-    this.productId = this.route.snapshot.paramMap.get('id');
-    this.getProduct();
-  }
-  
   changeImage(imageUrl: string): void {
     this.mainImage = imageUrl;
+  }
+
+  private async createPayment() {
+    const stripe = await this.stripePromise;
+    if (!stripe) {
+      console.error("Stripe couldn't be loaded.");
+      return;
+    }
+    this.user$.subscribe(user => {
+      this._api
+        .createPayment(
+          [{ ...this.product, quantity: this.quantity }],
+          user.displayName,
+          user.email
+        )
+        .subscribe({
+          next: async (session: any) => {
+            await stripe.redirectToCheckout({ sessionId: session.id });
+            console.log('Checkout session created:', session);
+          },
+          error: (err) => {
+            console.error('Error creating checkout session:', err);
+          },
+        });
+    });
   }
 
   private getProduct() {

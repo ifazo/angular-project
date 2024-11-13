@@ -13,6 +13,7 @@ import { authGuard } from './guard/auth.guard';
 import { ProductComponent } from './pages/product/product.component';
 import { CategoryComponent } from './pages/category/category.component';
 import { CartComponent } from './pages/cart/cart.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 export const routes: Routes = [
   {
@@ -77,7 +78,8 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '',
+    component: NotFoundComponent,
+    // redirectTo: '',
     pathMatch: 'full',
   },
 ];

@@ -9,6 +9,10 @@ export class ApiService {
 
   constructor(private _httpClient: HttpClient) { }
 
+  createPayment(products: any[], name: string, email: string) {
+    return this._httpClient.post(`${environment.apiUrl}/payment`, { products, name, email});
+  }
+
   getPaginatedProducts(first: number, rows: number) {
     return this._httpClient.get(
       `${environment.apiUrl}/products?skip=${first}&limit=${rows}`
