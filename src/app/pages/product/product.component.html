@@ -100,6 +100,7 @@
 
         <div class="flex space-x-4 mb-6">
           <button
+            (click)="addToCart(product)"
             class="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
             <svg
@@ -119,6 +120,7 @@
             Add to Cart
           </button>
           <button
+            (click)="removeFromCart(product._id)"
             class="bg-gray-200 flex gap-2 items-center text-gray-800 px-6 py-2 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
           >
             <svg
@@ -138,7 +140,7 @@
             Wishlist
           </button>
         </div>
-
+        <p>Total products in cart: {{ cartTotalCount$ | async }}</p>
         <div>
           <h3 class="text-lg font-semibold mb-2">Key Features:</h3>
           <ul class="list-disc list-inside text-gray-700">

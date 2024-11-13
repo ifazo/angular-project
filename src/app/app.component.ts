@@ -12,10 +12,10 @@ import { ToastModule } from 'primeng/toast';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
+
 export class AppComponent {
   title = 'angular-project';
   constructor() {
-    // Initialize Firebase with the environment configuration
     initializeApp(environment.firebaseConfig);
   }
 }

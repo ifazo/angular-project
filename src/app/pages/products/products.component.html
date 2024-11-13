@@ -1,5 +1,6 @@
 <div *ngIf="products.length > 0; else noProducts">
   <div class="bg-gray-50">
+    <div class="text-center text-lg font-bold py-12">All Products</div>
     <div class="mx-auto max-w-7xl overflow-hidden sm:px-6 lg:px-8">
       <h2 class="sr-only">Products</h2>
       <div
@@ -28,7 +29,9 @@
               <div class="mt-3 flex flex-col items-center">
                 <p class="sr-only">{{ product.rating }} out of 5 stars</p>
                 <div class="flex items-center">
-                  <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+                  <ng-container
+                    *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
+                  >
                     <!-- Filled Star -->
                     <svg
                       *ngIf="i < product.rating"
@@ -58,7 +61,6 @@
                       />
                     </svg>
                   </ng-container>
-                  
                 </div>
                 <p class="mt-1 text-sm text-gray-500">
                   {{ product.reviews.length }} reviews
@@ -75,7 +77,5 @@
   </div>
 </div>
 <ng-template #noProducts>
-  <div class="text-center text-lg font-semibold py-8">
-    Loading...
-  </div>
+  <div class="text-center text-lg font-semibold py-8">Loading...</div>
 </ng-template>

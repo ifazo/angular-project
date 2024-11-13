@@ -5,8 +5,11 @@ import { initializeApp } from 'firebase/app';
 import { AppComponent } from './app.component';
 import { ToastModule } from 'primeng/toast';
 
+import { StoreModule } from '@ngrx/store';
+import { cartReducer } from './stores/cart/cart.reducer';
+
 @NgModule({
-  imports: [BrowserModule, AppComponent, ToastModule],
+  imports: [BrowserModule, AppComponent, ToastModule,  StoreModule.forRoot({ cart: cartReducer })],
   providers: [],
 })
 
