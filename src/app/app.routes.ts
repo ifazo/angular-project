@@ -9,10 +9,10 @@ import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { OrderComponent } from './pages/order/order.component';
-import { HistoryComponent } from './pages/history/history.component';
 import { authGuard } from './guard/auth.guard';
 import { ProductComponent } from './pages/product/product.component';
 import { CategoryComponent } from './pages/category/category.component';
+import { CartComponent } from './pages/cart/cart.component';
 
 export const routes: Routes = [
   {
@@ -64,14 +64,14 @@ export const routes: Routes = [
         title: 'Profile | angular',
       },
       {
+        path: 'cart',
+        component: CartComponent,
+        title: 'Cart | angular',
+      },
+      {
         path: 'orders',
         component: OrderComponent,
         title: 'Order | angular',
-      },
-      {
-        path: 'history',
-        component: HistoryComponent,
-        title: 'History | angular',
       },
     ]
   },

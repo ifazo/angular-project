@@ -5,6 +5,14 @@ import { AuthService } from '../../services/auth.service';
 import { Observable } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
+import { Store } from '@ngrx/store';
+import { CartState } from '../../stores/cart/cart.reducer';
+import {
+  selectCartProducts,
+  selectCartTotal,
+  selectCartTotalCount,
+} from '../../stores/cart/cart.selectors';
+import { clearCart, removeFromCart } from '../../stores/cart/cart.actions';
 
 @Component({
   selector: 'app-header',
@@ -15,9 +23,21 @@ import { MessageService } from 'primeng/api';
 })
 export class HeaderComponent implements OnInit {
   user$!: Observable<any>;
-  isMobileMenuOpen = false;
+  isCartOpen = false;
+  cartProducts$: Observable<any[]>;
+  cartTotalProducts$: Observable<number>;
+  cartTotalPrice$: Observable<number>;
 
-  constructor(private authService: AuthService, private router: Router, private messageService: MessageService) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private messageService: MessageService,
+    private store: Store<CartState>
+  ) {
+    this.cartProducts$ = this.store.select(selectCartProducts);
+    this.cartTotalProducts$ = this.store.select(selectCartTotalCount);
+    this.cartTotalPrice$ = this.store.select(selectCartTotal);
+  }
 
   showSuccessToast() {
     this.messageService.add({
@@ -39,8 +59,16 @@ export class HeaderComponent implements OnInit {
     this.user$ = this.authService.getCurrentUser();
   }
 
-  toggleMobileMenu() {
-    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  toggleCart() {
+    this.isCartOpen = !this.isCartOpen;
+  }
+
+  removeFromCart(productId: string) {
+    this.store.dispatch(removeFromCart({ productId }));
+  }
+
+  clearCart() {
+    this.store.dispatch(clearCart());
   }
 
   signOut() {
@@ -48,7 +76,7 @@ export class HeaderComponent implements OnInit {
       .signOut()
       .then(() => {
         this.showSuccessToast();
-        this.router.navigate(['/sign-in'])
+        this.router.navigate(['/sign-in']);
       })
       .catch(() => {
         this.showErrorToast();

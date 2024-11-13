@@ -9,6 +9,12 @@ export class ApiService {
 
   constructor(private _httpClient: HttpClient) { }
 
+  getPaginatedProducts(first: number, rows: number) {
+    return this._httpClient.get(
+      `${environment.apiUrl}/products?skip=${first}&limit=${rows}`
+    );
+  }
+
   getProducts() {
     return this._httpClient.get(`${environment.apiUrl}/products`);
   }
@@ -59,22 +65,6 @@ export class ApiService {
     return this._httpClient.delete(
       `${environment.apiUrl}/categories/` + category.id
     );
-  }
-
-  getBlogs() {
-    return this._httpClient.get(`${environment.apiUrl}/blogs`);
-  }
-
-  addBlog(blog: any) {
-    return this._httpClient.post(`${environment.apiUrl}/blogs`, blog);
-  }
-
-  updateBlog(blog: any) {
-    return this._httpClient.put(`${environment.apiUrl}/blogs/` + blog.id, blog);
-  }
-
-  deleteBlog(blog: any) {
-    return this._httpClient.delete(`${environment.apiUrl}/blogs/` + blog.id);
   }
 
   getLogin() {

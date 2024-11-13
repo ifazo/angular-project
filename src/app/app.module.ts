@@ -7,10 +7,11 @@ import { ToastModule } from 'primeng/toast';
 
 import { StoreModule } from '@ngrx/store';
 import { cartReducer } from './stores/cart/cart.reducer';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 @NgModule({
   imports: [BrowserModule, AppComponent, ToastModule,  StoreModule.forRoot({ cart: cartReducer })],
-  providers: [],
+  providers: [ provideHttpClient(withFetch())],
 })
 
 export class AppModule {

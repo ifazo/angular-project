@@ -2,10 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
 import { Store, StoreModule } from '@ngrx/store';
-import { selectCartTotalCount } from '../../stores/cart/cart.selectors';
-import { addToCart, removeFromCart } from '../../stores/cart/cart.actions';
+import { addToCart } from '../../stores/cart/cart.actions';
 import { CartState } from '../../stores/cart/cart.reducer';
 
 @Component({
@@ -18,25 +16,35 @@ import { CartState } from '../../stores/cart/cart.reducer';
 export class ProductComponent implements OnInit {
   productId: string | null = null;
   product: any = {};
+  quantity: number = 1;
+  
   mainImage: string = '';
   filledStars: number[] = [];
   emptyStars: number[] = [];
   loading: boolean = true;
 
-  cartTotalCount$: Observable<number>;
-  
-  constructor(private route: ActivatedRoute, private _api: ApiService, private store: Store<CartState>) {
-    this.cartTotalCount$ = this.store.select(selectCartTotalCount);
+  constructor(private route: ActivatedRoute, private _api: ApiService, private store: Store<CartState>) {}
+
+  totalPrice() {
+    return this.product.price * this.quantity;
   }
 
-  addToCart(product: any): void {
-    this.store.dispatch(addToCart({product}));
-    console.log('added to cart', product);
+  increaseQuantity() {
+    this.quantity++;
   }
 
-  removeFromCart(productId: string): void {
-    this.store.dispatch(removeFromCart({productId}));
-    console.log('removed from cart', productId);
+  decreaseQuantity() {
+    if (this.quantity > 1) {
+      this.quantity--;
+    }
+  }
+
+  addToCart(): void {
+    this.store.dispatch(addToCart({ product: this.product, quantity: this.quantity }));
+  }
+
+  buyProduct(product: any): void {
+    console.log('Buying product', product);
   }
   
   ngOnInit(): void {
