@@ -45,8 +45,16 @@ export const routes: Routes = [
         component: CategoryComponent,
         title: 'Category | angular',
       },
-      { path: 'sign-in', component: SignInComponent, title: 'Sign in | angular' },
-      { path: 'sign-up', component: SignUpComponent, title: 'Sign up | angular' },
+      {
+        path: 'sign-in',
+        component: SignInComponent,
+        title: 'Sign in | angular',
+      },
+      {
+        path: 'sign-up',
+        component: SignUpComponent,
+        title: 'Sign up | angular',
+      },
     ],
   },
   {
@@ -74,7 +82,7 @@ export const routes: Routes = [
         component: OrderComponent,
         title: 'Order | angular',
       },
-    ]
+    ],
   },
   {
     path: '**',

@@ -2,46 +2,38 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
-import { PaginatorModule } from 'primeng/paginator';
+import { PaginationComponent } from '../../components/pagination/pagination.component';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, RouterModule, PaginatorModule, ButtonModule],
+  imports: [CommonModule, RouterModule, PaginationComponent],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
 })
 export class ProductsComponent implements OnInit {
   products: any[] = [];
   totalProducts: number = 0;
-  first: number = 0;
-  rows: number = 12;
+  skip = 0;
 
   constructor(private _api: ApiService) {}
 
-  onPageChange(event: any) {
-    this.first = event.first;
-    this.rows = event.rows;
-    this.ngOnInit(this.first, this.rows);
+  ngOnInit(skip: number = 0) {
+    this.getPaginatedProducts(skip);
   }
 
-  ngOnInit(first: number = 0, rows: number = 12) {
-    this.getPaginatedProducts(first, rows);
-  }
-
-  private getPaginatedProducts(first: number = 0, rows: number = 12) {
-    this._api.getPaginatedProducts(first, rows).subscribe({
+  getPaginatedProducts(skip: number) {
+    this._api.getPaginatedProducts(skip).subscribe({
       next: (data: any) => {
         this.products = data.products;
         this.totalProducts = data.totalProducts;
       },
       error: (err) => {
-        console.log(err);
+        console.error(err);
       },
       complete: () => {
-        console.log('products complete');
-      },
+        console.log('Products fetched successfully.');
+      }
     });
   }
 }

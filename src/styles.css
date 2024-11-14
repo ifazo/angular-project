@@ -2,17 +2,15 @@
 @import "primeng/resources/primeng.css";
 @import "primeicons/primeicons.css";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@layer primeng, tailwind-base, tailwind-utilities;
+        
+@layer tailwind-base {
+    @tailwind base;
+}
 
-@layer reset {
-    button,
-    input {
-        margin: 0;
-        padding: 0;
-        border: 0;
-    }
+@layer tailwind-utilities {
+    @tailwind components;
+    @tailwind utilities;
 }
 
 body {

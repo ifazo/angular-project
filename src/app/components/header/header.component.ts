@@ -13,6 +13,9 @@ import {
   selectCartTotalCount,
 } from '../../stores/cart/cart.selectors';
 import { clearCart, removeFromCart } from '../../stores/cart/cart.actions';
+import { environment } from '../../../environments/environment';
+import { loadStripe, Stripe } from '@stripe/stripe-js';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-header',
@@ -22,18 +25,22 @@ import { clearCart, removeFromCart } from '../../stores/cart/cart.actions';
   styleUrl: './header.component.css',
 })
 export class HeaderComponent implements OnInit {
-  user$!: Observable<any>;
   isCartOpen = false;
+  user$!: Observable<any>;
   cartProducts$: Observable<any[]>;
   cartTotalProducts$: Observable<number>;
   cartTotalPrice$: Observable<number>;
 
+  private stripePromise: Promise<Stripe | null>;
+
   constructor(
     private authService: AuthService,
     private router: Router,
+    private _api: ApiService,
     private messageService: MessageService,
     private store: Store<CartState>
   ) {
+    this.stripePromise = loadStripe(environment.STRIPE_PUBLISHABLE_KEY);
     this.cartProducts$ = this.store.select(selectCartProducts);
     this.cartTotalProducts$ = this.store.select(selectCartTotalCount);
     this.cartTotalPrice$ = this.store.select(selectCartTotal);
@@ -57,6 +64,46 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.user$ = this.authService.getCurrentUser();
+  }
+  
+  async handlePayment(): Promise<void> {
+    this.createPayment();
+  }
+
+  private async createPayment() {
+    const stripe = await this.stripePromise;
+    if (!stripe) {
+      alert('Stripe is not available');
+      return;
+    }
+    if (!this.user$) {
+      this.router.navigate(['/sign-in']);
+      return;
+    }
+    this.user$.subscribe(user => {
+      if (!user) {
+        console.error('User not logged in');
+        this.router.navigate(['/sign-in']);
+        return;
+      }  
+      this.cartProducts$.subscribe(cartProducts => {
+        this._api
+          .createPayment(
+            cartProducts,
+            user.displayName,
+            user.email
+          )
+          .subscribe({
+            next: async (session: any) => {
+              await stripe.redirectToCheckout({ sessionId: session.id });
+              console.log('Checkout session created:', session);
+            },
+            error: (err) => {
+              console.error('Error creating checkout session:', err);
+            },
+          });
+      });
+    });
   }
 
   toggleCart() {

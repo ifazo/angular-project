@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { CommonModule } from '@angular/common';
 import { Store, StoreModule } from '@ngrx/store';
 import { addToCart } from '../../stores/cart/cart.actions';
 import { CartState } from '../../stores/cart/cart.reducer';
-import { HttpClient } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { RatingModule } from 'primeng/rating';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
@@ -14,7 +15,7 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [CommonModule, StoreModule],
+  imports: [CommonModule, StoreModule, FormsModule, RatingModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css',
 })
@@ -24,7 +25,7 @@ export class ProductComponent implements OnInit {
   product: any = {};
   quantity: number = 1;
   loading: boolean = true;
-
+  value!: number;
   mainImage: string = '';
   filledStars: number[] = [];
   emptyStars: number[] = [];
@@ -32,6 +33,7 @@ export class ProductComponent implements OnInit {
   private stripePromise: Promise<Stripe | null>;
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private authService: AuthService,
     private _api: ApiService,
@@ -48,6 +50,40 @@ export class ProductComponent implements OnInit {
 
   async handlePayment(): Promise<void> {
     this.createPayment();
+  }
+  
+  private async createPayment() {
+    const stripe = await this.stripePromise;
+    if (!stripe) {
+      alert('Stripe is not available');
+      return;
+    }
+    if (!this.user$) {
+      this.router.navigate(['/sign-in']);
+      return;
+    }
+    this.user$.subscribe(user => {
+      if (!user) {
+        console.error('User not logged in');
+        this.router.navigate(['/sign-in']);
+        return;
+      }  
+      this._api
+        .createPayment(
+          [{ ...this.product, quantity: this.quantity }],
+          user.displayName,
+          user.email
+        )
+        .subscribe({
+          next: async (session: any) => {
+            await stripe.redirectToCheckout({ sessionId: session.id });
+            console.log('Checkout session created:', session);
+          },
+          error: (err) => {
+            console.error('Error creating checkout session:', err);
+          },
+        });
+    });
   }
 
   addToCart(): void {
@@ -81,31 +117,6 @@ export class ProductComponent implements OnInit {
 
   changeImage(imageUrl: string): void {
     this.mainImage = imageUrl;
-  }
-
-  private async createPayment() {
-    const stripe = await this.stripePromise;
-    if (!stripe) {
-      console.error("Stripe couldn't be loaded.");
-      return;
-    }
-    this.user$.subscribe(user => {
-      this._api
-        .createPayment(
-          [{ ...this.product, quantity: this.quantity }],
-          user.displayName,
-          user.email
-        )
-        .subscribe({
-          next: async (session: any) => {
-            await stripe.redirectToCheckout({ sessionId: session.id });
-            console.log('Checkout session created:', session);
-          },
-          error: (err) => {
-            console.error('Error creating checkout session:', err);
-          },
-        });
-    });
   }
 
   private getProduct() {

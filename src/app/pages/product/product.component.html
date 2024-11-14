@@ -82,56 +82,62 @@
         </div>
 
         <div class="mb-6 flex items-center space-x-2">
-          <label for="quantity" class="text-sm font-semibold text-gray-700 mr-2">Quantity:</label>
-          <button 
-            type="button" 
+          <label for="quantity" class="text-sm font-semibold text-gray-700 mr-2"
+            >Quantity:</label
+          >
+          <button
+            type="button"
             (click)="decreaseQuantity()"
             class="p-2 border border-gray-300 rounded-md text-gray-600 hover:bg-gray-100"
-          >-</button>
-          
-          <input 
-            type="number" 
-            id="quantity" 
-            name="quantity" 
-            [value]="quantity" 
+          >
+            -
+          </button>
+
+          <input
+            type="number"
+            id="quantity"
+            name="quantity"
+            [value]="quantity"
             class="w-24 text-center rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             readonly
           />
-          
-          <button 
-            type="button" 
-            (click)="increaseQuantity()" 
+
+          <button
+            type="button"
+            (click)="increaseQuantity()"
             class="p-2 border border-gray-300 rounded-md text-gray-600 hover:bg-gray-100"
-          >+</button>
-        </div>        
+          >
+            +
+          </button>
+        </div>
 
         <div class="flex space-x-4 mb-6">
           <button
-          (click)="handlePayment()"
+            (click)="handlePayment()"
             class="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
-          Buy ${{ totalPrice().toFixed(2) }}
+            Buy ${{ totalPrice().toFixed(2) }}
           </button>
 
           <button
             (click)="addToCart()"
             class="bg-gray-200 flex gap-2 items-center text-gray-800 px-6 py-2 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
           >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="size-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-            />
-          </svg>
-          Add to Cart
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+              />
+            </svg>
+            Add to Cart
           </button>
         </div>
 
@@ -151,80 +157,125 @@
       </div>
     </div>
 
-  <!-- Comment Section -->
-  <section class="relative">
-    <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
-        <div class="w-full flex-col justify-start items-start lg:gap-14 gap-7 inline-flex">
-            <h2 class="text-gray-900 text-2xl font-semibold font-manrope leading-normal">Comments</h2>
-            <div class="w-full flex-col justify-start items-start gap-8 flex">
-              
-              <div *ngFor="let review of product.reviews" class="w-full lg:p-8 p-5 bg-white rounded-3xl border border-gray-200 flex-col justify-start items-start flex">
-                <div class="w-full flex-col justify-start items-start gap-3.5 flex">
-                  <div class="w-full justify-between items-center inline-flex">
-                    <div class="justify-start items-center gap-2.5 flex">
-                      <div class="w-10 h-10 bg-stone-300 rounded-full justify-center items-center flex">
-                        <svg
-                          class="text-gray-500 w-6 h-6"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14c-2.5 0-4.71-1.28-6-3.22 0-1.99 4-3.08 6-3.08s6 1.09 6 3.08c-1.29 1.94-3.5 3.22-6 3.22z"
-                          />
-                        </svg>
-                      </div>
-                      
-                      <div class="flex-col justify-start items-start gap-1 inline-flex">
-                        <h5 class="text-gray-900 text-sm font-semibold leading-snug">{{ review.reviewerName }}</h5>
-                        <h6 class="text-gray-500 text-xs font-normal leading-5">{{ formatDate(review.date) }}</h6>
-                      </div>
+    <!-- Comment Section -->
+    <section class="relative">
+      <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
+        <div
+          class="w-full flex-col justify-start items-start lg:gap-14 gap-7 inline-flex"
+        >
+          <h2
+            class="text-gray-900 text-2xl font-semibold font-manrope leading-normal"
+          >
+            Comments
+          </h2>
+          <div class="w-full flex-col justify-start items-start gap-8 flex">
+            <div
+              *ngFor="let review of product.reviews"
+              class="w-full lg:p-8 p-5 bg-white rounded-3xl border border-gray-200 flex-col justify-start items-start flex"
+            >
+              <div
+                class="w-full flex-col justify-start items-start gap-3.5 flex"
+              >
+                <div class="w-full justify-between items-center inline-flex">
+                  <div class="justify-start items-center gap-2.5 flex">
+                    <div
+                      class="w-10 h-10 bg-stone-300 rounded-full justify-center items-center flex"
+                    >
+                      <svg
+                        class="text-gray-500 w-6 h-6"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14c-2.5 0-4.71-1.28-6-3.22 0-1.99 4-3.08 6-3.08s6 1.09 6 3.08c-1.29 1.94-3.5 3.22-6 3.22z"
+                        />
+                      </svg>
                     </div>
-                    <div class="justify-end items-center flex">
-                      <div class="px-5 py-2.5 rounded-xl border border-gray-400 justify-center items-center flex">
-                        <!-- Rating as Stars -->
-                        <div class="flex items-center">
-                          <ng-container *ngFor="let _ of getStars(review.rating)">
-                            <svg class="text-yellow-400 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                              <path
-                                d="M9.049.22a1 1 0 011.902 0l1.522 4.699a1 1 0 00.95.686h4.932a1 1 0 01.592 1.809l-3.986 2.894a1 1 0 00-.364 1.118l1.522 4.698a1 1 0 01-1.54 1.118l-3.986-2.894a1 1 0 00-1.175 0l-3.986 2.894a1 1 0 01-1.54-1.118l1.522-4.698a1 1 0 00-.364-1.118L.55 7.414a1 1 0 01.592-1.809h4.932a1 1 0 00.95-.686L9.049.22z"
-                              ></path>
-                            </svg>
-                          </ng-container>
-                          <span class="text-gray-600 text-sm ml-2">{{ review.rating }}</span>
-                        </div>
-                      </div>
+
+                    <div
+                      class="flex-col justify-start items-start gap-1 inline-flex"
+                    >
+                      <h5
+                        class="text-gray-900 text-sm font-semibold leading-snug"
+                      >
+                        {{ review.reviewerName }}
+                      </h5>
+                      <h6 class="text-gray-500 text-xs font-normal leading-5">
+                        {{ formatDate(review.date) }}
+                      </h6>
                     </div>
                   </div>
-                  <p class="text-gray-800 text-sm font-normal leading-snug">
-                    {{ review.comment }}
-                  </p>
+                  <div class="justify-end items-center flex">
+                      <!-- Rating as Stars -->
+                      <div class="flex items-center">
+                        <ng-container *ngFor="let _ of getStars(review.rating)">
+                          <svg
+                            class="text-yellow-400 w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M9.049.22a1 1 0 011.902 0l1.522 4.699a1 1 0 00.95.686h4.932a1 1 0 01.592 1.809l-3.986 2.894a1 1 0 00-.364 1.118l1.522 4.698a1 1 0 01-1.54 1.118l-3.986-2.894a1 1 0 00-1.175 0l-3.986 2.894a1 1 0 01-1.54-1.118l1.522-4.698a1 1 0 00-.364-1.118L.55 7.414a1 1 0 01.592-1.809h4.932a1 1 0 00.95-.686L9.049.22z"
+                            ></path>
+                          </svg>
+                        </ng-container>
+                        <span class="text-gray-600 text-sm ml-2">{{
+                          review.rating
+                        }}</span>
+                      </div>
+                  </div>
                 </div>
-              </div>              
-                
-                <div class="w-full relative flex justify-between gap-2">
-                    <input type="text"
-                        class="w-full py-3 px-5 rounded-lg border border-gray-300 bg-white shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] focus:outline-none text-gray-900 placeholder-gray-400 text-lg font-normal leading-relaxed"
-                        placeholder="Leave a constructive comment...">
-                    <a href="" class="absolute right-6 top-[18px]">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
-                            fill="none">
-                            <g clip-path="url(#clip0_2063_2504)">
-                                <path
-                                    d="M10.0194 1.66699V5.6556C1.69526 5.6556 1.54178 14.4163 1.69573 18.3337C1.69573 16.4818 5.84659 10.0003 10.0194 10.6414V14.63L18.3332 8.14847L10.0194 1.66699Z"
-                                    stroke="#111827" stroke-width="1.6" stroke-linejoin="round" />
-                            </g>
-                            <defs>
-                                <clipPath id="clip0_2063_2504">
-                                    <rect width="20" height="20" fill="white" />
-                                </clipPath>
-                            </defs>
-                        </svg>
-                    </a>
-                </div>
+                <p class="text-gray-800 text-sm font-normal leading-snug">
+                  {{ review.comment }}
+                </p>
+              </div>
             </div>
+
+            <div class="w-full flex items-center gap-4 px-4 py-2 border border-gray-300 rounded-lg shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] bg-white">
+              <!-- Comment Input -->
+              <input
+                type="text"
+                class="flex-grow py-2 px-4 rounded-lg border border-gray-300 focus:outline-none text-gray-900 placeholder-gray-400 text-lg font-normal leading-relaxed"
+                placeholder="Leave a review..."
+              />
+            
+              <!-- Rating Component -->
+              <div class="flex items-center">
+                <p-rating [(ngModel)]="value" [cancel]="false"></p-rating>
+              </div>
+            
+              <!-- Submit Button -->
+              <button class="p-2 rounded-lg hover:bg-gray-100">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  class="text-gray-600"
+                >
+                  <g clip-path="url(#clip0_2063_2504)">
+                    <path
+                      d="M10.0194 1.66699V5.6556C1.69526 5.6556 1.54178 14.4163 1.69573 18.3337C1.69573 16.4818 5.84659 10.0003 10.0194 10.6414V14.63L18.3332 8.14847L10.0194 1.66699Z"
+                      stroke="#111827"
+                      stroke-width="1.6"
+                      stroke-linejoin="round"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_2063_2504">
+                      <rect width="20" height="20" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </button>
+            </div>
+            
+          </div>
         </div>
-    </div>
-</section>
-</div>                              
+      </div>
+    </section>
+  </div>
 </div>

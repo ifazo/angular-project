@@ -4,6 +4,7 @@ import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideHttpClient } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { provideState, provideStore } from '@ngrx/store';
@@ -16,6 +17,7 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideHttpClient(),
     provideAnimations(),
+    provideAnimationsAsync(),
     provideStore(),
     provideState({ name: 'cart', reducer: cartReducer }),
     importProvidersFrom(ToastModule),

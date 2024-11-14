@@ -13,10 +13,14 @@ export class ApiService {
     return this._httpClient.post(`${environment.apiUrl}/payment`, { products, name, email});
   }
 
-  getPaginatedProducts(first: number, rows: number) {
+  getPaginatedProducts(skip: number) {
     return this._httpClient.get(
-      `${environment.apiUrl}/products?skip=${first}&limit=${rows}`
+      `${environment.apiUrl}/products?skip=${skip}&limit=${12}`
     );
+  }
+
+  getRandomProducts() {
+    return this._httpClient.get(`${environment.apiUrl}/products/random`);
   }
 
   getProducts() {
