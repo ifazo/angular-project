@@ -13,14 +13,14 @@ import { RouterModule } from '@angular/router';
 export class CategoriesComponent implements OnInit {
   categories: any[] = [];
 
-  constructor(private _api: ApiService) {}
+  constructor(private api: ApiService) {}
 
   ngOnInit(): void {
     this.getCategories();
   }
 
   private getCategories() {
-    this._api.getCategories().subscribe({
+    this.api.getCategories().subscribe({
       next: (data: any) => {
         this.categories = data;
       },

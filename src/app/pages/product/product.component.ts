@@ -10,7 +10,8 @@ import { RatingModule } from 'primeng/rating';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
-import { AuthService } from '../../services/auth.service';
+import { UserState } from '../../stores/user/user.reducer';
+import { selectUser } from '../../stores/user/user.selectors';
 
 @Component({
   selector: 'app-product',
@@ -35,16 +36,16 @@ export class ProductComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private authService: AuthService,
-    private _api: ApiService,
-    private store: Store<CartState>
+    private api: ApiService,
+    private userStore: Store<UserState>,
+    private cartStore: Store<CartState>
   ) {
     this.stripePromise = loadStripe(environment.STRIPE_PUBLISHABLE_KEY);
   }
 
   ngOnInit(): void {
     this.productId = this.route.snapshot.paramMap.get('id');
-    this.user$ = this.authService.getCurrentUser();
+    this.user$ = this.userStore.select(selectUser);
     this.getProduct();
   }
 
@@ -68,7 +69,7 @@ export class ProductComponent implements OnInit {
         this.router.navigate(['/sign-in']);
         return;
       }  
-      this._api
+      this.api
         .createPayment(
           [{ ...this.product, quantity: this.quantity }],
           user.displayName,
@@ -87,7 +88,7 @@ export class ProductComponent implements OnInit {
   }
 
   addToCart(): void {
-    this.store.dispatch(
+    this.cartStore.dispatch(
       addToCart({ product: this.product, quantity: this.quantity })
     );
   }
@@ -120,7 +121,7 @@ export class ProductComponent implements OnInit {
   }
 
   private getProduct() {
-    this._api.getProduct(this.productId).subscribe({
+    this.api.getProduct(this.productId).subscribe({
       next: (data: any) => {
         this.product = data;
         if (this.product) {

@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable, take } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
 import { Store } from '@ngrx/store';
@@ -18,6 +18,7 @@ import { loadStripe, Stripe } from '@stripe/stripe-js';
 import { ApiService } from '../../services/api.service';
 import { UserState } from '../../stores/user/user.reducer';
 import { removeUser } from '../../stores/user/user.actions';
+import { selectUser } from '../../stores/user/user.selectors';
 
 @Component({
   selector: 'app-header',
@@ -26,7 +27,7 @@ import { removeUser } from '../../stores/user/user.actions';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   isCartOpen = false;
   user$!: Observable<any>;
   cartProducts$: Observable<any[]>;
@@ -38,7 +39,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private _api: ApiService,
+    private api: ApiService,
     private messageService: MessageService,
     private cartStore: Store<CartState>,
     private userStore: Store<UserState>
@@ -47,6 +48,7 @@ export class HeaderComponent implements OnInit {
     this.cartProducts$ = this.cartStore.select(selectCartProducts);
     this.cartTotalProducts$ = this.cartStore.select(selectCartTotalCount);
     this.cartTotalPrice$ = this.cartStore.select(selectCartTotal);
+    this.user$ = this.userStore.select(selectUser);
   }
 
   showSuccessToast() {
@@ -65,37 +67,22 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.user$ = this.authService.getCurrentUser();
-  }
-  
   async handlePayment(): Promise<void> {
-    this.createPayment();
-  }
-
-  private async createPayment() {
     const stripe = await this.stripePromise;
     if (!stripe) {
       alert('Stripe is not available');
       return;
     }
-    if (!this.user$) {
-      this.router.navigate(['/sign-in']);
-      return;
-    }
-    this.user$.subscribe(user => {
-      if (!user) {
-        console.error('User not logged in');
-        this.router.navigate(['/sign-in']);
-        return;
-      }  
-      this.cartProducts$.subscribe(cartProducts => {
-        this._api
-          .createPayment(
-            cartProducts,
-            user.displayName,
-            user.email
-          )
+    combineLatest([this.user$, this.cartProducts$])
+      .pipe(take(1))
+      .subscribe(([user, cartProducts]) => {
+        if (!user) {
+          console.error('User not logged in');
+          this.router.navigate(['/sign-in']);
+          return;
+        }
+        this.api
+          .createPayment(cartProducts, user.displayName, user.email)
           .subscribe({
             next: async (session: any) => {
               await stripe.redirectToCheckout({ sessionId: session.id });
@@ -106,7 +93,6 @@ export class HeaderComponent implements OnInit {
             },
           });
       });
-    });
   }
 
   toggleCart() {

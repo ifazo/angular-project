@@ -1,7 +1,14 @@
 import { createReducer, on } from '@ngrx/store';
 import { addToCart, clearCart, removeFromCart } from './cart.actions';
 
+export interface CartState {
+  products: any[] | [];
+}
+
 export function saveToLocalStorage(state: CartState): void {
+  if (typeof window === 'undefined') {
+    return;
+  }
   try {
     const serializedState = JSON.stringify(state);
     localStorage.setItem('cart', serializedState);
@@ -11,6 +18,9 @@ export function saveToLocalStorage(state: CartState): void {
 }
 
 export function loadFromLocalStorage(): CartState {
+  if (typeof window === 'undefined') {
+    return { products: [] };
+  }
   try {
     const serializedState = localStorage.getItem('cart');
     return serializedState ? JSON.parse(serializedState) : { products: [] };
@@ -18,10 +28,6 @@ export function loadFromLocalStorage(): CartState {
     console.error('Could not load state from local storage', e);
     return { products: [] };
   }
-}
-
-export interface CartState {
-  products: any[];
 }
 
 export const initialCartState: CartState = loadFromLocalStorage();

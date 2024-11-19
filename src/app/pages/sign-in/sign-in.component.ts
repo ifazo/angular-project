@@ -47,7 +47,15 @@ export class SignInComponent {
       .then((userCredential) => {
         const user = userCredential.user;
         if (user) {
-          this.store.dispatch(setUser({ user }));
+          const userInfo = {
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            photoURL: user.photoURL,
+            creationTime: user.metadata.creationTime,
+            lastSignInTime: user.metadata.lastSignInTime,
+          };
+          this.store.dispatch(setUser({ user: userInfo }));
         }
         this.showSuccessToast();
         this.router.navigate(['/']);
@@ -61,7 +69,15 @@ export class SignInComponent {
       .then((userCredential) => {
         const user = userCredential.user;
         if (user) {
-          this.store.dispatch(setUser({ user }));
+          const userInfo = {
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            photoURL: user.photoURL,
+            creationTime: user.metadata.creationTime,
+            lastSignInTime: user.metadata.lastSignInTime,
+          };
+          this.store.dispatch(setUser({ user: userInfo }));
         }
         this.showSuccessToast();
         this.router.navigate(['/']);
@@ -75,7 +91,15 @@ export class SignInComponent {
       .then((userCredential) => {
         const user = userCredential.user;
         if (user) {
-          this.store.dispatch(setUser({ user }));
+          const userInfo = {
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            photoURL: user.photoURL,
+            creationTime: user.metadata.creationTime,
+            lastSignInTime: user.metadata.lastSignInTime,
+          };
+          this.store.dispatch(setUser({ user: userInfo }));
         }
         this.showSuccessToast();
         this.router.navigate(['/']);

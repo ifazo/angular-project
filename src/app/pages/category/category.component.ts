@@ -15,7 +15,7 @@ export class CategoryComponent implements OnInit {
   products: any[] = [];
   loading = true;
 
-  constructor(private route: ActivatedRoute, private _api: ApiService) {}
+  constructor(private route: ActivatedRoute, private api: ApiService) {}
 
   ngOnInit(): void {
     this.categorySlug = this.route.snapshot.paramMap.get('slug');
@@ -23,7 +23,7 @@ export class CategoryComponent implements OnInit {
   }
 
   private getProductsByCategory() {
-    this._api.getProductsByCategory(this.categorySlug).subscribe({
+    this.api.getProductsByCategory(this.categorySlug).subscribe({
       next: (data: any) => {
         this.products = data.products;
         this.loading = false;

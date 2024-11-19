@@ -16,7 +16,7 @@ export class CarouselComponent implements OnInit {
 
   responsiveOptions: any[] | undefined;
 
-  constructor(private _api: ApiService) {}
+  constructor(private api: ApiService) {}
 
   ngOnInit() {
     this.getRandomProducts();
@@ -40,7 +40,7 @@ export class CarouselComponent implements OnInit {
   }
 
   getRandomProducts() {
-    this._api.getRandomProducts().subscribe({
+    this.api.getRandomProducts().subscribe({
       next: (data: any) => {
         this.products = data;
       },

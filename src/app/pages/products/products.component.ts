@@ -16,14 +16,14 @@ export class ProductsComponent implements OnInit {
   totalProducts: number = 0;
   skip = 0;
 
-  constructor(private _api: ApiService) {}
+  constructor(private api: ApiService) {}
 
   ngOnInit(skip: number = 0) {
     this.getPaginatedProducts(skip);
   }
 
   getPaginatedProducts(skip: number) {
-    this._api.getPaginatedProducts(skip).subscribe({
+    this.api.getPaginatedProducts(skip).subscribe({
       next: (data: any) => {
         this.products = data.products;
         this.totalProducts = data.totalProducts;

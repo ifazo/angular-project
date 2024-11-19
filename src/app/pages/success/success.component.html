@@ -1,0 +1,28 @@
+<section class="bg-white dark:bg-gray-900">
+    <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+      <div class="mx-auto max-w-screen-sm text-center">
+        <h1 class="mb-4 text-6xl tracking-tight font-extrabold lg:text-8xl text-green-600 dark:text-green-500">🎉 Success!</h1>
+        <p class="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl dark:text-white">
+          Your order has been placed!
+        </p>
+        <p class="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">
+          Thank you for your purchase. You will receive a confirmation email shortly with the details of your order.
+        </p>
+        <div class="flex justify-center gap-4 mt-6">
+          <a
+            [routerLink]="'/products'"
+            class="inline-flex text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+          >
+            Shop More
+          </a>
+          <a
+            [routerLink]="'/dashboard/orders'"
+            class="inline-flex text-gray-900 bg-gray-100 border border-gray-300 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+          >
+            View Orders
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  

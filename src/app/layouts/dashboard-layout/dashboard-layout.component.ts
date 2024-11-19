@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
 import { Observable } from 'rxjs';
+import { UserState } from '../../stores/user/user.reducer';
+import { Store } from '@ngrx/store';
+import { selectUser } from '../../stores/user/user.selectors';
 
 @Component({
   selector: 'app-dashboard-layout',
@@ -15,13 +17,13 @@ export class DashboardLayoutComponent {
   isDashboardMenuOpen = false;
   user$!: Observable<any>;
 
-  constructor(private authService: AuthService) {}
-  
-  ngOnInit() {
-    this.user$ = this.authService.getCurrentUser();
+  constructor(
+    private userStore: Store<UserState>
+  ) {
+    this.user$ = this.userStore.select(selectUser);
   }
-  
-    toggleDashboardMenu() {
-      this.isDashboardMenuOpen = !this.isDashboardMenuOpen;
-    }
+
+  toggleDashboardMenu() {
+    this.isDashboardMenuOpen = !this.isDashboardMenuOpen;
+  }
 }
