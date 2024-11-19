@@ -5,4 +5,4 @@ export const removeFromCart = createAction(
   '[Cart] Remove',
   props<{ productId: string }>()
 );
-export const clearCart = createAction('[Cart] clear');
+export const clearCart = createAction('[Cart] Clear');

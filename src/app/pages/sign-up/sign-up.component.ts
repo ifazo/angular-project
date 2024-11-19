@@ -3,6 +3,9 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { UserState } from '../../stores/user/user.reducer';
+import { Store } from '@ngrx/store';
+import { setUser } from '../../stores/user/user.actions';
 
 @Component({
   selector: 'app-sign-up',
@@ -19,6 +22,7 @@ export class SignUpComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
+    private store: Store<UserState>,
     private messageService: MessageService
   ) {}
 
@@ -41,7 +45,11 @@ export class SignUpComponent {
   signUpWithEmail() {
     this.authService
       .signUpWithEmail(this.email, this.password)
-      .then(() => {
+      .then((userCredential) => {
+        const user = userCredential.user;
+        if (user) {
+          this.store.dispatch(setUser({ user }));
+        }
         this.showSuccessToast();
         this.router.navigate(['/']);
       })
@@ -51,7 +59,11 @@ export class SignUpComponent {
   signInWithGoogle() {
     this.authService
       .signInWithGoogle()
-      .then(() => {
+      .then((userCredential) => {
+        const user = userCredential.user;
+        if (user) {
+          this.store.dispatch(setUser({ user }));
+        }
         this.showSuccessToast();
         this.router.navigate(['/']);
       })
@@ -61,7 +73,11 @@ export class SignUpComponent {
   signInWithGitHub() {
     this.authService
       .signInWithGitHub()
-      .then(() => {
+      .then((userCredential) => {
+        const user = userCredential.user;
+        if (user) {
+          this.store.dispatch(setUser({ user }));
+        }
         this.showSuccessToast();
         this.router.navigate(['/']);
       })

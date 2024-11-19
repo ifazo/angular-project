@@ -41,7 +41,7 @@
                   </div>
                   <p class="mt-1 text-sm text-gray-500">{{ product.brand }}</p>
                   <p class="mt-1 text-sm text-gray-500">
-                    {{ product.rating }} rating
+                    Quantity: {{ product.quantity }}
                   </p>
                 </div>
 
@@ -86,7 +86,7 @@
               (click)="handlePayment()"
               class="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
             >
-              Checkout
+              Checkout ${{ cartTotalPrice$ | async | number : "1.2-2" }}
             </button>
           </div>
 
@@ -118,7 +118,7 @@
         <p class="text-center text-sm text-gray-500">Your cart is empty</p>
         <div class="mt-6 text-center">
           <a
-            href="#"
+            [routerLink]="'/products'"
             class="text-sm font-medium text-indigo-600 hover:text-indigo-500"
             >Continue Shopping</a
           >

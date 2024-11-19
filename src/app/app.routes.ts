@@ -7,7 +7,6 @@ import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-l
 import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { ProfileComponent } from './pages/profile/profile.component';
 import { OrderComponent } from './pages/order/order.component';
 import { authGuard } from './guard/auth.guard';
 import { ProductComponent } from './pages/product/product.component';
@@ -66,11 +65,6 @@ export const routes: Routes = [
         path: '',
         component: DashboardComponent,
         title: 'Dashboard | angular',
-      },
-      {
-        path: 'profile',
-        component: ProfileComponent,
-        title: 'Profile | angular',
       },
       {
         path: 'cart',

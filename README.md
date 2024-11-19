@@ -1,27 +1,35 @@
-# AngularProject
+# Angular Project with NgRx, TailwindCSS, Firebase, and Backend Integration
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.7.
+Welcome to the **[Ifaz Angular Project]** repository! This project is built using Angular with state management via NgRx, styled with TailwindCSS, and includes Firebase integration. It also has a robust backend to handle server-side operations.
 
-## Development server
+## 🚀 Live Demo
+Check out the live version of the application here: [Live Link](https://ifaz-angular.vercel.app)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Code scaffolding
+## 🛠️ Technologies Used
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Frontend
+- **Angular**: Component-based UI framework.
+- **NgRx**: State management for predictable application behavior.
+- **TailwindCSS**: Utility-first CSS framework for styling.
+- **TypeScript**: Strongly typed JavaScript.
+- **Firebase**: Authentication, Firestore database, and hosting.
 
-## Build
+### Backend
+- **Node.js**: Backend server with REST API endpoints.
+- **Stripe**: Processing money transections.
+---
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## 🌟 Features
+1. **State Management**: Centralized store using NgRx.
+2. **Responsive Design**: Styled with TailwindCSS for mobile-first design.
+3. **Authentication**: Firebase authentication for user login/signup.
+4. **Real-Time Updates**: Firebase Firestore integration for live data syncing.
+5. **Secure Backend**: RESTful APIs with Node.js for server-side logic.
 
-## Running unit tests
+---
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## 📜 License
+This project is the property of **@ifazo**. All rights reserved.
+Unauthorized use, distribution, or replication of this project or its contents without explicit permission from **@ifazo** is strictly prohibited.
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

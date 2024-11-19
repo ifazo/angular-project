@@ -16,6 +16,8 @@ import { clearCart, removeFromCart } from '../../stores/cart/cart.actions';
 import { environment } from '../../../environments/environment';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
 import { ApiService } from '../../services/api.service';
+import { UserState } from '../../stores/user/user.reducer';
+import { removeUser } from '../../stores/user/user.actions';
 
 @Component({
   selector: 'app-header',
@@ -38,12 +40,13 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private _api: ApiService,
     private messageService: MessageService,
-    private store: Store<CartState>
+    private cartStore: Store<CartState>,
+    private userStore: Store<UserState>
   ) {
     this.stripePromise = loadStripe(environment.STRIPE_PUBLISHABLE_KEY);
-    this.cartProducts$ = this.store.select(selectCartProducts);
-    this.cartTotalProducts$ = this.store.select(selectCartTotalCount);
-    this.cartTotalPrice$ = this.store.select(selectCartTotal);
+    this.cartProducts$ = this.cartStore.select(selectCartProducts);
+    this.cartTotalProducts$ = this.cartStore.select(selectCartTotalCount);
+    this.cartTotalPrice$ = this.cartStore.select(selectCartTotal);
   }
 
   showSuccessToast() {
@@ -111,17 +114,18 @@ export class HeaderComponent implements OnInit {
   }
 
   removeFromCart(productId: string) {
-    this.store.dispatch(removeFromCart({ productId }));
+    this.cartStore.dispatch(removeFromCart({ productId }));
   }
 
   clearCart() {
-    this.store.dispatch(clearCart());
+    this.cartStore.dispatch(clearCart());
   }
 
   signOut() {
     this.authService
       .signOut()
       .then(() => {
+        this.userStore.dispatch(removeUser());
         this.showSuccessToast();
         this.router.navigate(['/sign-in']);
       })
