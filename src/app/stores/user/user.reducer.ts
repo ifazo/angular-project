@@ -19,7 +19,6 @@ export function saveToLocalStorage(state: UserState): void {
   try {
     const serializedState = JSON.stringify(state);
     localStorage.setItem('user', serializedState);
-    console.log('Saved user to localStorage:', state.user);
   } catch (e) {
     console.error('Could not save user state to local storage', e);
   }
@@ -45,14 +44,12 @@ export const userReducer = createReducer(
 
   on(setUser, (state, { user }) => {
     const updatedState = { ...state, user };
-    console.log('User state after setUser:', updatedState);
     saveToLocalStorage(updatedState);
     return updatedState;
   }),
 
   on(removeUser, (state) => {
     const updatedState = { ...state, user: null };
-    console.log('User state after removeUser:', updatedState);
     saveToLocalStorage(updatedState);
     return updatedState;
   })

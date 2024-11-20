@@ -67,10 +67,11 @@ export class HeaderComponent {
     });
   }
 
-  async handlePayment(): Promise<void> {
+  async handlePayment(event: Event): Promise<void> {
+    event.preventDefault();
     const stripe = await this.stripePromise;
     if (!stripe) {
-      alert('Stripe is not available');
+      console.error('Stripe failed to load');
       return;
     }
     combineLatest([this.user$, this.cartProducts$])
