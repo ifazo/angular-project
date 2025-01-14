@@ -10,7 +10,7 @@
         <img
           [src]="mainImage"
           alt="{{ product.title }}"
-          class="w-full h-auto rounded-lg shadow-md mb-4"
+          class="w-full h-svh object-cover rounded-lg shadow-md mb-4"
         />
         <div class="flex gap-4 py-4 justify-center overflow-x-auto">
           <img
@@ -161,7 +161,7 @@
     <section class="relative">
       <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
         <div
-          class="w-full flex-col justify-start items-start lg:gap-14 gap-7 inline-flex"
+          class="w-full flex-col justify-start items-start gap-7 inline-flex"
         >
           <h2
             class="text-gray-900 text-2xl font-semibold font-manrope leading-normal"
@@ -207,24 +207,24 @@
                     </div>
                   </div>
                   <div class="justify-end items-center flex">
-                      <!-- Rating as Stars -->
-                      <div class="flex items-center">
-                        <ng-container *ngFor="let _ of getStars(review.rating)">
-                          <svg
-                            class="text-yellow-400 w-5 h-5"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M9.049.22a1 1 0 011.902 0l1.522 4.699a1 1 0 00.95.686h4.932a1 1 0 01.592 1.809l-3.986 2.894a1 1 0 00-.364 1.118l1.522 4.698a1 1 0 01-1.54 1.118l-3.986-2.894a1 1 0 00-1.175 0l-3.986 2.894a1 1 0 01-1.54-1.118l1.522-4.698a1 1 0 00-.364-1.118L.55 7.414a1 1 0 01.592-1.809h4.932a1 1 0 00.95-.686L9.049.22z"
-                            ></path>
-                          </svg>
-                        </ng-container>
-                        <span class="text-gray-600 text-sm ml-2">{{
-                          review.rating
-                        }}</span>
-                      </div>
+                    <!-- Rating as Stars -->
+                    <div class="flex items-center">
+                      <ng-container *ngFor="let _ of getStars(review.rating)">
+                        <svg
+                          class="text-yellow-400 w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M9.049.22a1 1 0 011.902 0l1.522 4.699a1 1 0 00.95.686h4.932a1 1 0 01.592 1.809l-3.986 2.894a1 1 0 00-.364 1.118l1.522 4.698a1 1 0 01-1.54 1.118l-3.986-2.894a1 1 0 00-1.175 0l-3.986 2.894a1 1 0 01-1.54-1.118l1.522-4.698a1 1 0 00-.364-1.118L.55 7.414a1 1 0 01.592-1.809h4.932a1 1 0 00.95-.686L9.049.22z"
+                          ></path>
+                        </svg>
+                      </ng-container>
+                      <span class="text-gray-600 text-sm ml-2">{{
+                        review.rating
+                      }}</span>
+                    </div>
                   </div>
                 </div>
                 <p class="text-gray-800 text-sm font-normal leading-snug">
@@ -233,21 +233,22 @@
               </div>
             </div>
 
-            <div class="w-full flex items-center gap-4 px-4 py-2 border border-gray-300 rounded-lg shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] bg-white">
-              <!-- Comment Input -->
+            <div
+              class="w-full flex items-center gap-4 px-4 py-2 border border-gray-300 rounded-lg shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] bg-white"
+            >
               <input
                 type="text"
+                [(ngModel)]="comment"
+                placeholder="Write a review..."
                 class="flex-grow py-2 px-4 rounded-lg border border-gray-300 focus:outline-none text-gray-900 placeholder-gray-400 text-lg font-normal leading-relaxed"
-                placeholder="Leave a review..."
               />
-            
-              <!-- Rating Component -->
               <div class="flex items-center">
-                <p-rating [(ngModel)]="value" [cancel]="false"></p-rating>
+                <p-rating [(ngModel)]="rating" [cancel]="false"></p-rating>
               </div>
-            
-              <!-- Submit Button -->
-              <button class="p-2 rounded-lg hover:bg-gray-100">
+              <button
+                (click)="createReview()"
+                class="p-2 rounded-lg hover:bg-gray-100"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -272,7 +273,6 @@
                 </svg>
               </button>
             </div>
-            
           </div>
         </div>
       </div>

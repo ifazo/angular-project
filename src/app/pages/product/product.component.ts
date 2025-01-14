@@ -12,6 +12,7 @@ import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { UserState } from '../../stores/user/user.reducer';
 import { selectUser } from '../../stores/user/user.selectors';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-product',
@@ -30,6 +31,9 @@ export class ProductComponent implements OnInit {
   mainImage: string = '';
   filledStars: number[] = [];
   emptyStars: number[] = [];
+  review: any = {};
+  comment: string = '';
+  rating: number = 0;
 
   private stripePromise: Promise<Stripe | null>;
 
@@ -38,7 +42,8 @@ export class ProductComponent implements OnInit {
     private route: ActivatedRoute,
     private api: ApiService,
     private userStore: Store<UserState>,
-    private cartStore: Store<CartState>
+    private cartStore: Store<CartState>,
+    private messageService: MessageService
   ) {
     this.stripePromise = loadStripe(environment.STRIPE_PUBLISHABLE_KEY);
   }
@@ -52,7 +57,62 @@ export class ProductComponent implements OnInit {
   async handlePayment(): Promise<void> {
     this.createPayment();
   }
-  
+
+  public createReview(): void {
+    if (this.comment.trim() === '' || this.rating <= 0) {
+      alert('Please provide a valid comment and rating.');
+      return;
+    }
+    const reviewData = {
+      rating: this.rating,
+      comment: this.comment,
+      reviewerName: 'Anonymous',
+      reviewerEmail: 'user@mail.com'
+    };
+    if (!this.productId) {
+      console.error('Product ID is null');
+      return;
+    }
+    this.api.addReview(this.productId, reviewData).subscribe({
+      next: (data: any) => {
+        this.review = data;
+        this.filledStars = Array(Math.ceil(this.review?.rating || 0)).fill(0); 
+        this.emptyStars = Array(5 - Math.ceil(this.review?.rating || 0)).fill(0);
+        this.rating = 0;
+        this.comment = '';
+      },
+      complete: () => {
+        this.showSuccessReviewToast();
+        window.location.reload();
+      },
+      error: (err) => {
+        this.showErrorReviewToast(err);
+        this.review = {};
+      },
+    });
+  }
+
+  private getProduct() {
+    this.api.getProduct(this.productId).subscribe({
+      next: (data: any) => {
+        this.product = data;
+        if (this.product) {
+          this.mainImage = this.product.images[0];
+          this.filledStars = Array(Math.ceil(this.product.rating)).fill(0);
+          this.emptyStars = Array(5 - Math.ceil(this.product.rating)).fill(0);
+          this.loading = false;
+        }
+      },
+      error: (err) => {
+        console.log(err);
+        this.loading = false;
+      },
+      complete: () => {
+        console.log('product complete');
+      },
+    });
+  }
+
   private async createPayment() {
     const stripe = await this.stripePromise;
     if (!stripe) {
@@ -63,12 +123,12 @@ export class ProductComponent implements OnInit {
       this.router.navigate(['/sign-in']);
       return;
     }
-    this.user$.subscribe(user => {
+    this.user$.subscribe((user) => {
       if (!user) {
         console.error('User not logged in');
         this.router.navigate(['/sign-in']);
         return;
-      }  
+      }
       this.api
         .createPayment(
           [{ ...this.product, quantity: this.quantity }],
@@ -120,24 +180,20 @@ export class ProductComponent implements OnInit {
     this.mainImage = imageUrl;
   }
 
-  private getProduct() {
-    this.api.getProduct(this.productId).subscribe({
-      next: (data: any) => {
-        this.product = data;
-        if (this.product) {
-          this.mainImage = this.product.images[0];
-          this.filledStars = Array(Math.ceil(this.product.rating)).fill(0);
-          this.emptyStars = Array(5 - Math.ceil(this.product.rating)).fill(0);
-          this.loading = false;
-        }
-      },
-      error: (err) => {
-        console.log(err);
-        this.loading = false;
-      },
-      complete: () => {
-        console.log('product complete');
-      },
+  showSuccessReviewToast() {
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: 'Review added successfully!',
     });
   }
+
+  showErrorReviewToast(error: any) {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: error.message,
+    });
+  }
+
 }

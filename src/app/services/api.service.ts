@@ -61,6 +61,10 @@ export class ApiService {
     );
   }
 
+  addReview(productId: string, review: any) {
+    return this.httpClient.post(`${environment.apiUrl}/reviews/` + productId, review);
+  }
+
   getCategories() {
     return this.httpClient.get(`${environment.apiUrl}/categories`);
   }
