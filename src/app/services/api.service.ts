@@ -65,6 +65,10 @@ export class ApiService {
     return this.httpClient.post(`${environment.apiUrl}/reviews/` + productId, review);
   }
 
+  getRandomCategories() {
+    return this.httpClient.get(`${environment.apiUrl}/categories/random`);
+  }
+
   getCategories() {
     return this.httpClient.get(`${environment.apiUrl}/categories`);
   }
